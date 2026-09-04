@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+video/audio/
+video/part*.mp4
+video/concat.txt

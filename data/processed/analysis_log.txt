@@ -1,0 +1,71 @@
+=== 1. 全球情景 (2024, 2021 PPP) ===
+ line_ppp_per_day  transfer_per_year  gross_cost_T  gross_pct_world_gdp_ppp  headcount_pct  headcount_M  gap_elim_cost_T  gap_elim_pct_world_gdp_ppp  gross_T_vs_socprot  gap_T_vs_military
+              3.0             1095.0          8.91                     4.46           10.4       846.65             0.32                        0.16                0.35               0.06
+              4.2             1533.0         12.48                     6.25           18.9      1538.63             0.84                        0.42                0.48               0.17
+              8.3             3029.5         24.66                    12.34           46.1      3752.95             4.96                        2.48                0.96               1.00
+
+=== 2. 国家情景 (普惠毛成本 %GDP / 贫困缺口下限 %GDP / 净转移成本 %GDP) ===
+                   gross_pct_gdp             net_transfer_pct_gdp           
+line_ppp                     3.0   4.2   8.3                  3.0  4.2   8.3
+country                                                                     
+Argentina                    3.6   5.0   9.9                  1.1  1.5   3.1
+Bangladesh                  11.3  15.9  31.4                  2.5  3.5   6.9
+Brazil                       4.9   6.9  13.5                  1.8  2.5   5.0
+Canada                       1.7   2.3   4.6                  0.4  0.5   1.0
+China                        4.0   5.6  11.2                  1.0  1.5   2.9
+Egypt, Arab Rep.             5.7   8.0  15.8                  1.2  1.6   3.2
+Finland                      1.7   2.4   4.7                  0.3  0.5   0.9
+France                       1.8   2.5   4.8                  0.4  0.6   1.1
+Germany                      1.5   2.1   4.1                  0.4  0.5   1.0
+India                       10.2  14.3  28.3                  1.9  2.6   5.1
+Indonesia                    6.6   9.3  18.4                  1.7  2.3   4.6
+Iran, Islamic Rep.           5.5   7.7  15.2                  1.4  2.0   3.9
+Japan                        2.0   2.8   5.6                  0.5  0.7   1.3
+Kenya                       16.5  23.1  45.6                  4.6  6.4  12.7
+Mexico                       4.2   5.9  11.7                  1.3  1.8   3.6
+Nigeria                     12.0  16.8  33.3                  2.9  4.1   8.1
+Pakistan                    17.5  24.5  48.4                  4.2  5.9  11.6
+Philippines                  9.3  13.0  25.6                  2.6  3.7   7.3
+Russian Federation           2.3   3.2   6.2                  0.5  0.7   1.5
+South Africa                 7.1   9.9  19.6                  2.8  4.0   7.8
+Turkiye                      2.4   3.4   6.7                  0.8  1.1   2.1
+United Kingdom               1.7   2.4   4.8                  0.4  0.6   1.1
+United States                1.3   1.8   3.5                  0.4  0.5   1.1
+Viet Nam                     6.7   9.4  18.5                  1.7  2.4   4.8
+World                        4.5   6.2  12.3                  1.3  1.8   3.5
+
+Maddison world gdppc (2011$): 1820=1128, 1950=3360, 2000=9904, latest(2022)=16677
+  world GDP pc PPP CAGR 1990-2024: 1.90%
+  world GDP pc PPP CAGR 2000-2024: 2.17%
+  world GDP pc PPP CAGR 2010-2024: 2.07%
+  world GDP pc PPP CAGR 2019-2024: 1.82%
+
+=== 3. $8.30/天 普惠 UBI 成本占比从 12.3% 降至目标的年份 ===
+       growth   g  target_share_pct  years_needed  year_reached
+     低 (1.0%) 0.0              10.0          21.2        2045.2
+     低 (1.0%) 0.0               5.0          90.8        2114.8
+     低 (1.0%) 0.0               2.5         160.5        2184.5
+    基准 (1.5%) 0.0              10.0          14.1        2038.1
+    基准 (1.5%) 0.0               5.0          60.7        2084.7
+    基准 (1.5%) 0.0               2.5         107.2        2131.2
+    中高 (2.0%) 0.0              10.0          10.6        2034.6
+    中高 (2.0%) 0.0               5.0          45.6        2069.6
+    中高 (2.0%) 0.0               2.5          80.6        2104.6
+AI 高情景 (3.0%) 0.0              10.0           7.1        2031.1
+AI 高情景 (3.0%) 0.0               5.0          30.6        2054.6
+AI 高情景 (3.0%) 0.0               2.5          54.0        2078.0
+
+=== 4. 融资 ===
+全球劳动份额(含自雇, 2025): 52.6%  ⇒ 资本份额 ≈ 47.4%
+  消除 $8.30 贫困缺口 = 2.5% GDP → 若全部来自资本收入税: 对资本收入征 5.2% (资本收入基数 47% GDP)
+  普惠 $8.30 UBI 毛额 = 12.3% GDP → 若全部来自资本收入税: 对资本收入征 26.0% (资本收入基数 47% GDP)
+  Forbes 2025 亿万富翁财富 ~16.1 万亿: 2% 年度财富税 ≈ 0.32 万亿 vs 消除 $3 贫困缺口 0.32 万亿/年
+  化石燃料显性补贴 1.3 万亿 (IMF) = 极端贫困缺口成本的 4.1 倍
+Traceback (most recent call last):
+  File "C:\Users\Dell\Downloads\UBI研究\scripts\06_analysis.py", line 243, in <module>
+    adults = r.population * (r.pop_working_age_share / 100 + 0.10)  # 15-64 + 65+ 近似
+             ^^^^^^^^^^^^
+  File "C:\Users\Dell\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\generic.py", line 6206, in __getattr__
+    return object.__getattribute__(self, name)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AttributeError: 'Series' object has no attribute 'population'

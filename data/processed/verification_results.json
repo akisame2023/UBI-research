@@ -1,0 +1,154 @@
+{
+ "wdi_live": [
+  {
+   "claim": "世界 GDP(PPP) 2024 = $199.8 万亿",
+   "live": "199.8万亿",
+   "expect_contains": "199.8",
+   "pass": true
+  },
+  {
+   "claim": "世界人口 2024 = 81.4 亿",
+   "live": "8.14亿",
+   "expect_contains": "8.14",
+   "pass": true
+  },
+  {
+   "claim": "世界贫困缺口 $3.00 2024 = 3.6%",
+   "live": "3.6%",
+   "expect_contains": "3.6",
+   "pass": true
+  },
+  {
+   "claim": "世界贫困率 $8.30 2024 = 46.1%",
+   "live": "46.1%",
+   "expect_contains": "46.1",
+   "pass": true
+  },
+  {
+   "claim": "世界账户拥有率 2024 = 78.7%",
+   "live": "78.7%",
+   "expect_contains": "78.7",
+   "pass": true
+  },
+  {
+   "claim": "中国互联网 2024 = 92.0%",
+   "live": "92.0%",
+   "expect_contains": "92.0",
+   "pass": true
+  },
+  {
+   "claim": "中国 65+ 2024 = 14.7%",
+   "live": "14.7%",
+   "expect_contains": "14.7",
+   "pass": true
+  },
+  {
+   "claim": "中国 Gini 2022 = 36.0",
+   "live": "36.0",
+   "expect_contains": "36.0",
+   "pass": true
+  },
+  {
+   "claim": "日本 65+ 2024 = 29.8%",
+   "live": "29.8%",
+   "expect_contains": "29.8",
+   "pass": true
+  },
+  {
+   "claim": "美国 GDP 市场价 2024 = $29.2 万亿",
+   "live": "29.3万亿",
+   "expect_contains": "29.2",
+   "pass": false
+  }
+ ],
+ "recompute": [
+  {
+   "claim": "消除 $3.00 缺口净成本 = 0.32 万亿 = 0.16% 世界GDP",
+   "recomputed": "0.321万亿 (0.16%)",
+   "pass": true
+  },
+  {
+   "claim": "$8.30/天 普惠毛成本 = 12.3% 世界GDP",
+   "recomputed": "12.34%",
+   "pass": true
+  },
+  {
+   "claim": "中国 ¥500/月 毛成本 = 6.27% GDP",
+   "recomputed": "6.27%",
+   "pass": true
+  }
+ ],
+ "dois": [
+  {
+   "doi": "10.1093/qje/qjw025",
+   "crossref_title": "The Short-term Impact of Unconditional Cash Transfers to the Poor: Experimental\nEvidence f",
+   "needle": "short-term impact of unconditional cash transfers",
+   "pass": true
+  },
+  {
+   "doi": "10.3982/ecta17945",
+   "crossref_title": "General Equilibrium Effects of Cash Transfers: Experimental Evidence From Kenya",
+   "needle": "general equilibrium effects of cash transfers",
+   "pass": true
+  },
+  {
+   "doi": "10.1093/wbro/lkx002",
+   "crossref_title": "Debunking the Stereotype of the Lazy Welfare Recipient: Evidence from Cash Transfer Progra",
+   "needle": "debunking the stereotype of the lazy welfare recipient",
+   "pass": true
+  },
+  {
+   "doi": "10.1146/annurev-economics-080218-030237",
+   "crossref_title": "Universal Basic Income in the United States and Advanced Countries",
+   "needle": "universal basic income in the united states",
+   "pass": true
+  },
+  {
+   "doi": "10.1257/jep.32.4.201",
+   "crossref_title": "Universal Basic Incomes versus Targeted Transfers: Anti-Poverty Programs in Developing Cou",
+   "needle": "universal basic incomes versus targeted transfers",
+   "pass": true
+  },
+  {
+   "doi": "10.1086/705716",
+   "crossref_title": "Robots and Jobs: Evidence from US Labor Markets",
+   "needle": "robots and jobs",
+   "pass": true
+  },
+  {
+   "doi": "10.1126/science.adh2586",
+   "crossref_title": "Experimental evidence on the productivity effects of generative artificial intelligence",
+   "needle": "productivity effects of generative artificial intelligence",
+   "pass": true
+  },
+  {
+   "doi": "10.1093/epolic/eiae042",
+   "crossref_title": "The simple macroeconomics of AI",
+   "needle": "simple macroeconomics of ai",
+   "pass": true
+  },
+  {
+   "doi": "10.1038/s41586-022-04484-3",
+   "error": "HTTP Error 404: Not Found",
+   "pass": false
+  },
+  {
+   "doi": "10.1257/aer.20141346",
+   "crossref_title": "Building State Capacity: Evidence from Biometric Smartcards in India",
+   "needle": "building state capacity",
+   "pass": true
+  },
+  {
+   "doi": "10.1515/bis-2017-0016",
+   "crossref_title": "The Cost of Basic Income: Back-of-the-Envelope Calculations",
+   "needle": "cost of basic income",
+   "pass": true
+  },
+  {
+   "doi": "10.1016/j.jdeveco.2018.08.005",
+   "crossref_title": "Cash transfers and labor supply: Evidence from a large-scale program in Iran",
+   "needle": "cash transfers and labor supply",
+   "pass": true
+  }
+ ]
+}
