@@ -5,6 +5,7 @@
 输出: video/UBI研究报告视频.mp4, video/subtitles.srt, video/frames/, video/audio/
 """
 import asyncio
+import hashlib
 import re
 import wave
 from pathlib import Path
@@ -19,8 +20,8 @@ VID = ROOT / "video"
 FIG = ROOT / "figures"
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 
-VOICE = "zh-CN-YunyeNeural"   # 成熟年长男声
-RATE = "-6%"
+VOICE = "zh-CN-YunjianNeural"  # 浑厚中年男声(与此前女声截然不同)
+RATE = "+0%"
 W, H = 1920, 1080
 FONT = "C:/Windows/Fonts/msyh.ttc"
 FONT_B = "C:/Windows/Fonts/msyhbd.ttc"
@@ -53,7 +54,7 @@ for s in SCENES:
 # ---------------------------------------------------------------- 音频
 async def tts(text, out_mp3):
     import edge_tts
-    voices = ["zh-CN-YunyeNeural", "zh-CN-YunjianNeural", "zh-CN-YunyangNeural"]
+    voices = ["zh-CN-YunjianNeural", "zh-CN-YunjianNeural", "zh-CN-YunyeNeural", "zh-CN-YunyangNeural"]
     last = None
     for attempt in range(4):
         try:
@@ -95,8 +96,9 @@ async def gen_audio():
     for s in SCENES:
         s["sent_wavs"], offsets, t = [], [], 0.0
         for j, sent in enumerate(s["sents"]):
-            mp3 = VID / "audio" / f"s{s['n']:02d}_{j:02d}.mp3"
-            wav = VID / "audio" / f"s{s['n']:02d}_{j:02d}.wav"
+            h = hashlib.md5((VOICE + RATE + sent).encode()).hexdigest()[:10]
+            mp3 = VID / "audio" / f"s{s['n']:02d}_{j:02d}_{h}.mp3"
+            wav = VID / "audio" / f"s{s['n']:02d}_{j:02d}_{h}.wav"
             if wav.exists():
                 try:
                     wav_dur(wav)
@@ -137,18 +139,29 @@ def make_frame(s):
         d.text((W / 2, 560), "治理技术上有什么阻碍？", font=load_font(88, bold=True), fill=ACC, anchor="mm")
         d.text((W / 2, 680), "—— 80 篇文献 · 31,656 条世界银行观测 · 26 国与中国专章 ——",
                font=load_font(34), fill=(150, 165, 185), anchor="mm")
+    elif s["n"] == 10:
+        d.text((W / 2, 380), "生产率：一百年前就够用了", font=load_font(80, bold=True), fill=FG, anchor="mm")
+        d.text((W / 2, 530), "拦路的只有两件事：", font=load_font(56), fill=(160, 175, 195), anchor="mm")
+        d.text((W / 2, 630), "钱从谁身上来（政治）", font=load_font(66, bold=True), fill=ACC, anchor="mm")
+        d.text((W / 2, 730), "钱怎么准确、可持续地到人手里（治理）", font=load_font(66, bold=True), fill=ACC, anchor="mm")
     else:
-        f_h, f_b = load_font(44, bold=True), load_font(34)
-        y = 270
-        for head, body in [
-            ("报告", "主报告 · 26 国高信息化子研究 · 中国专章 · 真实性校验报告"),
-            ("数据", "世界银行 WDI 31,656 行 · Maddison 1820-2022 · OWID 劳动份额与碳排放"),
-            ("文献", "80 篇逐条核验: Friedman / Van Parijs / Acemoglu / Egger / Jones-Marinescu / Hanna-Olken …"),
-            ("代码与数据", "github.com/akisame2023/UBI-research"),
+        f_h, f_b = load_font(42, bold=True), load_font(33)
+        y = 250
+        for head, bodies in [
+            ("报告", ["主报告 · 26 国高信息化子研究 · 中国专章 · 真实性校验报告"]),
+            ("数据", ["世界银行 WDI 31,656 行 · Maddison 1820-2022 · OWID 劳动份额与碳排放"]),
+            ("文献", ["经典: Friedman · Tobin · Van Parijs · Atkinson · Piketty",
+                      "实证: Banerjee · Egger · Jones & Marinescu · Forget（Mincome）",
+                      "AI: Acemoglu · Frey & Osborne · Brynjolfsson · Eloundou（Science）",
+                      "治理: Hanna & Olken · Muralidharan · Suri & Jack · ID4D/Findex"]),
+            ("代码与数据", ["github.com/akisame2023/UBI-research（源码/数据/图表/文献库）"]),
         ]:
-            d.text((W / 2 - 720, y), head, font=f_h, fill=ACC)
-            d.text((W / 2 - 720, y + 60), body, font=f_b, fill=FG)
-            y += 128
+            d.text((W / 2 - 740, y), head, font=f_h, fill=ACC)
+            y += 58
+            for line in bodies:
+                d.text((W / 2 - 740, y), line, font=f_b, fill=FG)
+                y += 46
+            y += 22
     d.rectangle((0, H - 150, W, H), fill=(10, 14, 21))
     sub = s["text"][:44] + ("…" if len(s["text"]) > 44 else "")
     d.text((W / 2, H - 78), sub, font=load_font(40, bold=True), fill=FG, anchor="mm")
@@ -178,7 +191,7 @@ def make_srt():
             lines.append(f"{idx}\n{fmt_tsec(t0+a)} --> {fmt_tsec(t0+b)}\n{wrap2(sent.strip())}\n")
             idx += 1
         t0 += s["dur"]
-    (VID / "subtitles.srt").write_text("\n".join(lines), encoding="utf-8-sig")  # BOM: 防 Windows 播放器乱码
+    (VID / "UBI研究报告视频.srt").write_text("\n".join(lines), encoding="utf-8-sig")  # BOM: 防 Windows 播放器乱码
     print(f"SRT: {idx-1} 条字幕 (UTF-8 BOM, 逐句精确对齐)")
 
 # ---------------------------------------------------------------- 合成
