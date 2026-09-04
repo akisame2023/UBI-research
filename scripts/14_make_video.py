@@ -39,11 +39,60 @@ for b in re.split(r"\n\n(?=S\d+ \|)", narr.strip()):
     lines = [l for l in b.splitlines() if l.strip()]
     if not lines or not re.match(r"S\d+ \|", lines[0]):
         continue
+    if int(re.match(r"S(\d+)", lines[0]).group(1)) >= 11:
+        continue  # S11+ 由代码生成(文献分页)
     m = re.match(r"S(\d+)\s*\|\s*(.+?)\s*\|\s*(?:([\w/.\\-]+\.png)\s*\|)?", lines[0])
     SCENES.append({"n": int(m.group(1)), "title": m.group(2),
                    "fig": ROOT / m.group(3) if m.group(3) else None,
                    "text": "".join(lines[1:]).strip()})
 print(f"解析到 {len(SCENES)} 个场景")
+
+# ---------------------------------------------------------------- 文献分页场景 (S11-S15, 全名列出)
+LIT_SLIDES = [
+    (11, "文献与出处 1/4 · 经典理论", "研究一共引用了八十篇文献，全部逐条核验过元数据。第一页是经典理论：从弗里德曼的负所得税，到范·派里斯的真实自由，再到皮凯蒂对财富积累的刻画。", [
+        "Friedman（1962）《资本主义与自由》· 第 IX 章 负所得税 · U. Chicago Press",
+        "Tobin, Pechman & Mieszkowski（1967）《负所得税可行吗？》· Yale Law Journal",
+        "Van Parijs（1995）《给所有人以真实自由》· Oxford University Press",
+        "Van Parijs & Vanderborght（2017）《基本收入：一部激进的倡议》· Harvard University Press",
+        "Atkinson（1996）《参与收入的理由》· Political Quarterly；Atkinson（2015）《不平等：我们能做什么》",
+        "Piketty（2014）《21 世纪资本论》· Harvard University Press；Korpi & Palme（1998）《再分配悖论》· ASR",
+    ]),
+    (12, "文献与出处 2/4 · 实验与实证", "第二页是实验与实证：加拿大 Mincome、阿拉斯加永久基金分红、芬兰 Kela 实验、肯尼亚 GiveDirectly 的一般均衡研究、伊朗的全国现金转移，以及美国最新的三年无条件现金实验。", [
+        "Forget（2011）《没有贫困的城镇》· Canadian Public Policy —— 加拿大 Mincome",
+        "Jones & Marinescu（2018/2022）阿拉斯加永久基金分红的劳动市场影响 · NBER 24312 / AEJ: Policy",
+        "Kela（2020）芬兰基本收入实验 2017-2018 最终报告 · 芬兰社会保障研究所",
+        "Egger, Haushofer, Miguel, Niehaus & Walker（2022）《现金转移的一般均衡效应》· Econometrica",
+        "Banerjee, Hanna & Kreindler（2017）《为\"懒穷人\"正名》· WBRO；Salehi-Isfahani（2018）伊朗现金转移 · JDE",
+        "OpenResearch（2024）美国三年无条件现金转移研究 · NBER w32784",
+    ]),
+    (13, "文献与出处 3/4 · 成本与人工智能", "第三页是成本核算与人工智能：从 Hoynes 和 Rothstein 的成本综述、Hanna 和 Olken 的普惠与定向之辩，到 Frey-Osborne 的就业未来、Acemoglu 的 AI 宏观经济学，还有发表在 Science 上的生成式 AI 生产率实验。", [
+        "Hoynes & Rothstein（2019）《美国与发达国家的 UBI》· Annual Review of Economics",
+        "Hanna & Olken（2018）《普惠还是定向》· JEP；Widerquist（2017）《基本收入的成本》· Basic Income Studies",
+        "Frey & Osborne（2017）《就业的未来》· TFSC；Arntz, Gregory & Zierahn（2016）OECD 任务法修正",
+        "Acemoglu & Restrepo（2020）《机器人与就业》· JPE；Acemoglu（2025）《AI 的简单宏观经济学》· Economic Policy",
+        "Noy & Zhang（2023）生成式 AI 生产率实验 · Science；Brynjolfsson, Li & Raymond（2025）· QJE",
+        "Eloundou 等（2024）《GPTs are GPTs》· Science；Briggs & Kodnani（2023）高盛 AI 增长报告",
+    ]),
+    (14, "文献与出处 4/4 · 治理与数据", "第四页是治理与数据：Hanna 和 Olken 的定向之比较、印度的生物识别智能卡、M-Pesa 的十年研究、Aadhaar 的排斥案例、美国审计署的欺诈报告，以及 ID4D、Findex、ILO 三大数据体系。", [
+        "Hanna & Olken（2018）《UBI 与定向转移》· JEP；Muralidharan 等（2016）生物识别智能卡 · AER",
+        "Suri & Jack（2016）M-Pesa 十年影响 · Science；Jean 等（2016）卫星+机器学习预测贫困 · Science",
+        "Aiken 等（2022）手机数据定向人道主义援助 · Nature；Drèze, Khera & Somanchi（2019）Aadhaar 排斥研究",
+        "World Bank ID4D / Global Findex 2025 / ITU Facts & Figures 2024 / ILO WSPR 2024-26",
+        "美国 GAO-23-106696 疫情期失业保险欺诈报告；IMF WP/23/169 化石燃料补贴",
+        "中国：人社部统计公报 · 社科院《养老金精算报告》· 生态环境部碳市场数据",
+    ]),
+]
+for n, title, text, _ in LIT_SLIDES:
+    SCENES.append({"n": n, "title": title, "fig": None, "text": text, "lit": LIT_SLIDES[[x[0] for x in LIT_SLIDES].index(n)][3]})
+SCENES.append({"n": 15, "title": "数据与代码", "fig": None, "text":
+    "最后是数据与代码。三份报告、全部源码、十二张图表、八十一兆字节的原始数据和文献库，都在 GitHub 仓库 akisame2023 斜杠 UBI-research，欢迎复算。",
+    "lit": [
+        "报告：主报告 · 26 国高信息化子研究 · 中国专章 · 真实性校验报告",
+        "数据：世界银行 WDI 31,656 行 · Maddison 1820-2022 · OWID 劳动份额与碳排放",
+        "文献库：sources/core_works_verified.json（80 篇，57 条 OpenAlex 核验）· references.bib",
+        "代码与数据：github.com/akisame2023/UBI-research（源码/数据/图表/文献库）",
+    ]})
+print(f"加入文献分页后共 {len(SCENES)} 个场景")
 
 def split_sentences(text):
     return [p for p in re.split(r"(?<=[。；？！])", text) if p.strip()]
@@ -139,32 +188,27 @@ def make_frame(s):
         d.text((W / 2, 560), "治理技术上有什么阻碍？", font=load_font(88, bold=True), fill=ACC, anchor="mm")
         d.text((W / 2, 680), "—— 80 篇文献 · 31,656 条世界银行观测 · 26 国与中国专章 ——",
                font=load_font(34), fill=(150, 165, 185), anchor="mm")
+    elif s.get("lit"):
+        f_h = load_font(40, bold=True)
+        y = 250
+        for line in s["lit"]:
+            fb = load_font(33)
+            head_like = line.startswith(("报告", "数据", "文献库", "代码与数据"))
+            fnt = load_font(36, bold=True) if head_like else fb
+            while d.textlength(line, font=fnt) > 1660 and fnt.size > 23:
+                fnt = load_font(fnt.size - 2)
+            d.text((W / 2 - 830, y), line, font=fnt, fill=ACC if head_like else FG)
+            y += 52
+    elif s["n"] == 1:
+        d.text((W / 2, 420), "人类的生产力足够 UBI 吗？", font=load_font(88, bold=True), fill=FG, anchor="mm")
+        d.text((W / 2, 560), "治理技术上有什么阻碍？", font=load_font(88, bold=True), fill=ACC, anchor="mm")
+        d.text((W / 2, 680), "—— 80 篇文献 · 31,656 条世界银行观测 · 26 国与中国专章 ——",
+               font=load_font(34), fill=(150, 165, 185), anchor="mm")
     elif s["n"] == 10:
         d.text((W / 2, 380), "生产率：一百年前就够用了", font=load_font(80, bold=True), fill=FG, anchor="mm")
         d.text((W / 2, 530), "拦路的只有两件事：", font=load_font(56), fill=(160, 175, 195), anchor="mm")
         d.text((W / 2, 630), "钱从谁身上来（政治）", font=load_font(66, bold=True), fill=ACC, anchor="mm")
         d.text((W / 2, 730), "钱怎么准确、可持续地到人手里（治理）", font=load_font(66, bold=True), fill=ACC, anchor="mm")
-    else:
-        f_h, f_b = load_font(42, bold=True), load_font(33)
-        y = 250
-        for head, bodies in [
-            ("报告", ["主报告 · 26 国高信息化子研究 · 中国专章 · 真实性校验报告"]),
-            ("数据", ["世界银行 WDI 31,656 行 · Maddison 1820-2022 · OWID 劳动份额与碳排放"]),
-            ("文献", ["经典: Friedman · Tobin · Van Parijs · Atkinson · Piketty",
-                      "实证: Banerjee · Egger · Jones & Marinescu · Forget（Mincome）",
-                      "AI: Acemoglu · Frey & Osborne · Brynjolfsson · Eloundou（Science）",
-                      "治理: Hanna & Olken · Muralidharan · Suri & Jack · ID4D/Findex"]),
-            ("代码与数据", ["github.com/akisame2023/UBI-research（源码/数据/图表/文献库）"]),
-        ]:
-            d.text((W / 2 - 740, y), head, font=f_h, fill=ACC)
-            y += 58
-            for line in bodies:
-                d.text((W / 2 - 740, y), line, font=f_b, fill=FG)
-                y += 46
-            y += 22
-    d.rectangle((0, H - 150, W, H), fill=(10, 14, 21))
-    sub = s["text"][:44] + ("…" if len(s["text"]) > 44 else "")
-    d.text((W / 2, H - 78), sub, font=load_font(40, bold=True), fill=FG, anchor="mm")
     d.text((W - 90, 30), "代码与数据 · github.com/akisame2023/UBI-research",
            font=load_font(24), fill=(110, 128, 150), anchor="rm")
     out = VID / "frames" / f"s{s['n']:02d}.png"
@@ -220,7 +264,7 @@ def render():
          "-c", "copy", str(final)])
     print("FINAL:", final, f"{final.stat().st_size/1e6:.1f} MB")
     for p in parts:
-        p.unlink()
+        p.unlink(missing_ok=True)
 
 async def main():
     await gen_audio()
