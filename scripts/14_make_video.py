@@ -19,9 +19,9 @@ VID = ROOT / "video"
 FIG = ROOT / "figures"
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 
-VOICE = "zh-CN-XiaoyiNeural"   # 哈基米风格: 萌系活泼女声
-RATE = "+12%"
-HAKIMI_PITCH = 1.28            # 升调 1.28x + 变速 -> 高音萌系"哈基米"效果
+VOICE = "zh-CN-XiaoyiNeural"   # 活泼元气女声(东海帝皇风格最接近的可用声线)
+RATE = "+6%"
+HAKIMI_PITCH = None            # 已按用户要求取消升调
 W, H = 1920, 1080
 FONT = "C:/Windows/Fonts/msyh.ttc"
 FONT_B = "C:/Windows/Fonts/msyhbd.ttc"
@@ -66,9 +66,10 @@ async def tts(text, out_mp3):
 def mp3_to_wav(mp3, wav):
     # ffmpeg mp3 -> 24k mono wav; 哈基米模式: asetrate 升调+提速(经典 chipmunk 效果)
     import subprocess
-    subprocess.run([FFMPEG, "-y", "-loglevel", "error", "-i", str(mp3),
-                    "-af", f"asetrate=24000*{HAKIMI_PITCH},aresample=24000",
-                    "-ar", "24000", "-ac", "1", str(wav)], check=True)
+    af = f"asetrate=24000*{HAKIMI_PITCH},aresample=24000" if HAKIMI_PITCH else None
+    cmd = [FFMPEG, "-y", "-loglevel", "error", "-i", str(mp3)] + (
+        ["-af", af] if af else []) + ["-ar", "24000", "-ac", "1", str(wav)]
+    subprocess.run(cmd, check=True)
 
 def wav_dur(wav):
     with wave.open(str(wav), "rb") as w:
@@ -115,15 +116,31 @@ def make_frame(s):
         im = fit_image(im, 1620, 660)
         img.paste(im, ((W - im.width) // 2, 240))
     else:
-        big = load_font(88, bold=True)
-        d.text((W / 2, 420), "人类的生产力足够 UBI 吗？", font=big, fill=FG, anchor="mm")
-        d.text((W / 2, 560), "治理技术上有什么阻碍？", font=big, fill=ACC, anchor="mm")
-        d.text((W / 2, 680), "—— 80 篇文献 · 31,656 条世界银行观测 · 26 国与中国专章 ——",
-               font=load_font(34), fill=(150, 165, 185), anchor="mm")
+        if s["n"] == 1:
+            big = load_font(88, bold=True)
+            d.text((W / 2, 420), "人类的生产力足够 UBI 吗？", font=big, fill=FG, anchor="mm")
+            d.text((W / 2, 560), "治理技术上有什么阻碍？", font=big, fill=ACC, anchor="mm")
+            d.text((W / 2, 680), "—— 80 篇文献 · 31,656 条世界银行观测 · 26 国与中国专章 ——",
+                   font=load_font(34), fill=(150, 165, 185), anchor="mm")
+        else:
+            f_h = load_font(44, bold=True)
+            f_b = load_font(34)
+            y = 270
+            for head, body in [
+                ("报告", "主报告 · 26 国高信息化子研究 · 中国专章 · 真实性校验报告"),
+                ("数据", "世界银行 WDI 31,656 行 · Maddison 1820-2022 · OWID 劳动份额与碳排放"),
+                ("文献", "80 篇逐条核验: Friedman / Van Parijs / Acemoglu / Egger / Jones-Marinescu / Hanna-Olken …"),
+                ("代码与数据", "github.com/akisame2023/UBI-research"),
+            ]:
+                d.text((W / 2 - 720, y), head, font=f_h, fill=ACC)
+                d.text((W / 2 - 720, y + 60), body, font=f_b, fill=FG)
+                y += 128
     # 底部字幕条: 取旁白前 ~46 字
     sub = s["text"][:44] + ("…" if len(s["text"]) > 44 else "")
     d.rectangle((0, H - 150, W, H), fill=(10, 14, 21))
     d.text((W / 2, H - 78), sub, font=f_sub, fill=FG, anchor="mm")
+    d.text((W - 90, 30), "代码与数据 · github.com/akisame2023/UBI-research",
+           font=load_font(24), fill=(110, 128, 150), anchor="rm")
     out = VID / "frames" / f"s{s['n']:02d}.png"
     img.save(out)
     s["frame"] = str(out)
