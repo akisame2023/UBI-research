@@ -85,7 +85,7 @@ LIT_SLIDES = [
 for n, title, text, _ in LIT_SLIDES:
     SCENES.append({"n": n, "title": title, "fig": None, "text": text, "lit": LIT_SLIDES[[x[0] for x in LIT_SLIDES].index(n)][3]})
 SCENES.append({"n": 15, "title": "数据与代码", "fig": None, "text":
-    "最后是数据与代码。三份报告、全部源码、十二张图表、八十一兆字节的原始数据和文献库，都在 GitHub 仓库 akisame2023 斜杠 UBI-research，欢迎复算。",
+    "最后是数据与代码。三份完整报告、全部源码、十二张图表和八十篇文献清单，都在 GitHub 仓库，网址就在屏幕右上角，链接也放在视频简介里，欢迎复算。",
     "lit": [
         "报告：主报告 · 26 国高信息化子研究 · 中国专章 · 真实性校验报告",
         "数据：世界银行 WDI 31,656 行 · Maddison 1820-2022 · OWID 劳动份额与碳排放",
