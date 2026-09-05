@@ -6,7 +6,11 @@
 **子研究**：[高信息化国家UBI可行性研究.md](高信息化国家UBI可行性研究.md)（26 国数字就绪度 × 财政空间，含 toeslagenaffaire/Robodebt 治理案例、老龄化挤压与融资菜单量化）
 **中国专章**：[中国UBI可行性分析.md](中国UBI可行性分析.md)（¥200-1000/月方案成本、城乡居民基础养老金提标路径、碳税融资菜单）
 **真实性校验**：[校验报告.md](校验报告.md)（实时 API 复算 + Crossref DOI 解析 + 事实二次核验 + A/B/C 置信度分级披露；脚本 scripts/13_verify.py）
-**视频**：[video/UBI研究报告视频.mp4](video/UBI研究报告视频.mp4)（4 分 33 秒，1080p，10 场景中文旁白 + 46 条 SRT 字幕 [video/subtitles.srt](video/subtitles.srt)；旁白文稿 [video/narration.md](video/narration.md)；复现 scripts/14_make_video.py）
+**视频**（三个版本，均 1080p/云健男声/逐句精确字幕）：
+- [video/UBI研究报告视频.mp4](video/UBI研究报告视频.mp4) 横屏母版（5 分 48 秒）+ 外挂 [UBI研究报告视频.srt](video/UBI研究报告视频.srt)
+- [video/UBI研究报告视频_硬字幕发布版.mp4](video/UBI研究报告视频_硬字幕发布版.mp4) 横屏硬字幕（B 站/通用投稿直接用）
+- [video/UBI研究报告视频_竖屏硬字幕版.mp4](video/UBI研究报告视频_竖屏硬字幕版.mp4) 9:16 竖屏硬字幕（抖音/小红书，字幕避开平台 UI 区）
+- 旁白文稿 [video/narration.md](video/narration.md)；复现 scripts/14_make_video.py、15_burn_subtitles.py、16_make_vertical.py
 
 ## 核心结论（TL;DR）
 
