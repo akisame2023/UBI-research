@@ -139,27 +139,26 @@ def render_vertical(burn):
         print(f"vpart{s['n']:02d}.mp4  {dur:.1f}s", flush=True)
     lst = VID / "vconcat.txt"
     lst.write_text("".join(f"file '{p.as_posix()}'\n" for p in parts), encoding="utf-8")
-    base = VID / "UBI研究报告视频_竖屏版.mp4"
+    vsilent = VID / "vsilent.mp4"
     run([imageio_ffmpeg.get_ffmpeg_exe(), "-y", "-loglevel", "error",
-         "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", str(base)])
-    if burn:
-        style = ("FontName=Microsoft YaHei,FontSize=12,PrimaryColour=&HFFFFFF&,"
-                 "OutlineColour=&H80000000&,Outline=1.6,Shadow=0,MarginV=70")
-        final = VID / "UBI研究报告视频_竖屏硬字幕版.mp4"
-        r2 = subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), "-y", "-loglevel", "error",
-                             "-i", str(base), "-vf",
-                             "subtitles=UBI研究报告视频.srt:force_style='" + style + "'",
-                             "-c:v", "libx264", "-preset", "medium", "-crf", "21",
-                             "-c:a", "copy", str(final)], capture_output=True, text=True, cwd=str(VID))
-        if r2.returncode != 0:
-            raise RuntimeError(r2.stderr[-1000:])
-        for p in parts:
-            p.unlink(missing_ok=True)
-        print("FINAL:", final, f"{final.stat().st_size/1e6:.1f} MB")
-    else:
-        for p in parts:
-            p.unlink(missing_ok=True)
-        print("FINAL:", base, f"{base.stat().st_size/1e6:.1f} MB")
+         "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", str(vsilent)])
+    # 一步完成: 视频重编码 + 烧字幕 + 混入全片连续音轨 (44.1kHz 立体声)
+    style = ("FontName=Microsoft YaHei,FontSize=12,PrimaryColour=&HFFFFFF&,"
+             "OutlineColour=&H80000000&,Outline=1.6,Shadow=0,MarginV=70")
+    final = VID / "UBI研究报告视频_竖屏硬字幕版.mp4"
+    r2 = subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), "-y", "-loglevel", "error",
+                         "-i", str(vsilent), "-i", str(VID / "audio" / "full.wav"),
+                         "-map", "0:v:0", "-map", "1:a:0",
+                         "-vf", "subtitles=UBI研究报告视频.srt:force_style='" + style + "'",
+                         "-c:v", "libx264", "-preset", "medium", "-crf", "21",
+                         "-c:a", "aac", "-ar", "44100", "-ac", "2", "-b:a", "160k",
+                         "-shortest", str(final)], capture_output=True, text=True, cwd=str(VID))
+    if r2.returncode != 0:
+        raise RuntimeError(r2.stderr[-1200:])
+    vsilent.unlink(missing_ok=True)
+    for p in parts:
+        p.unlink(missing_ok=True)
+    print("FINAL:", final, f"{final.stat().st_size/1e6:.1f} MB")
 
 if __name__ == "__main__":
     render_vertical(burn=True)
