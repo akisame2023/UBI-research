@@ -189,7 +189,13 @@ async def gen_audio():
         concat_wavs(s["sent_wavs"], VID / "audio" / f"s{s['n']:02d}.wav")
         s["dur"] = wav_dur(VID / "audio" / f"s{s['n']:02d}.wav")
         print(f"S{s['n']:02d} {s['dur']:.1f}s  {s['title']}  ({len(s['sents'])}句)", flush=True)
-    print(f"总时长 {sum(s['dur'] for s in SCENES):.0f}s")
+    # 全片单条连续音轨: 保证任意时刻音画同步(分段独立编码会累积 AAC 填充漂移)
+    with wave.open(str(VID / "audio" / "full.wav"), "wb") as w:
+        w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
+        for s in SCENES:
+            with wave.open(str(VID / "audio" / f"s{s['n']:02d}.wav"), "rb") as r:
+                w.writeframes(r.readframes(r.getnframes()))
+    print(f"总时长 {sum(s['dur'] for s in SCENES):.0f}s  (full.wav)")
 
 # ---------------------------------------------------------------- 画面
 def load_font(size, bold=False):
@@ -300,17 +306,20 @@ def render():
         out = VID / f"part{s['n']:02d}.mp4"
         dur = s["dur"]
         run([FFMPEG, "-y", "-loglevel", "error",
-             "-loop", "1", "-i", s["frame"], "-i", str(VID / "audio" / f"s{s['n']:02d}.wav"),
-             "-t", f"{dur:.2f}",
+             "-loop", "1", "-i", s["frame"], "-t", f"{dur:.2f}",
              "-vf", f"scale=1920:1080,fade=t=in:st=0:d=0.45,fade=t=out:st={max(dur-0.5,0):.2f}:d=0.45,format=yuv420p",
              "-c:v", "libx264", "-tune", "stillimage", "-preset", "medium", "-r", "30",
-             "-c:a", "aac", "-b:a", "128k", str(out)])
+             "-an", str(out)])
         parts.append(out)
     lst = VID / "concat.txt"
     lst.write_text("".join(f"file '{p.as_posix()}'\n" for p in parts), encoding="utf-8")
-    final = VID / "UBI研究报告视频.mp4"
+    silent = VID / "silent.mp4"
     run([FFMPEG, "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(lst),
-         "-c", "copy", str(final)])
+         "-c", "copy", str(silent)])
+    final = VID / "UBI研究报告视频.mp4"
+    run([FFMPEG, "-y", "-loglevel", "error", "-i", str(silent),
+         "-i", str(VID / "audio" / "full.wav"),
+         "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-shortest", str(final)])
     print("FINAL:", final, f"{final.stat().st_size/1e6:.1f} MB")
     for p in parts:
         p.unlink(missing_ok=True)

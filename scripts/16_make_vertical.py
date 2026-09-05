@@ -114,24 +114,25 @@ def run(cmd):
     if r.returncode != 0:
         raise RuntimeError(r.stderr[-1200:])
 
+def wav_dur(wav):
+    with wave.open(str(wav), "rb") as w:
+        return w.getnframes() / w.getframerate()
+
 def render_vertical(burn):
     import subprocess
     parts = []
     for s in SCENES:
         frame = make_vframe(s)
         wav = VID / "audio" / f"s{s['n']:02d}.wav"
-        with wave.open(str(wav), "rb") as w:
-            dur = w.getnframes() / w.getframerate() + 0.6
+        dur = wav_dur(wav)
         out = VID / f"vpart{s['n']:02d}.mp4"
-        style = ("FontName=Microsoft YaHei,FontSize=12,PrimaryColour=&HFFFFFF&,"
-                 "OutlineColour=&H80000000&,Outline=1.6,Shadow=0,MarginV=70")
         # 字幕在拼接后的整片上统一烧录(分段烧录会导致每段都从SRT的0秒开始, 时间全错)
         vf = f"scale=1080:1920,fade=t=in:st=0:d=0.45,fade=t=out:st={max(dur-0.5,0):.2f}:d=0.45,format=yuv420p"
         cmd = [imageio_ffmpeg.get_ffmpeg_exe(), "-y", "-loglevel", "error",
-               "-loop", "1", "-i", frame, "-i", str(wav), "-t", f"{dur:.2f}",
+               "-loop", "1", "-i", frame, "-t", f"{dur:.2f}",
                "-vf", vf, "-c:v", "libx264", "-tune", "stillimage", "-preset", "medium",
-               "-r", "30", "-c:a", "aac", "-b:a", "128k", str(out)]
-        r = subprocess.run(cmd, capture_output=True, text=True, cwd=str(VID))
+               "-r", "30", "-an", str(out)]
+        r = subprocess.run(cmd, capture_output=True, text=True)
         if r.returncode != 0:
             raise RuntimeError(r.stderr[-1000:])
         parts.append(out)
