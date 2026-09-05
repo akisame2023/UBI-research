@@ -181,8 +181,8 @@ def make_frame(s):
     d.text((90, 110), f"{s['n']:02d}  {s['title']}", font=load_font(56, bold=True), fill=ACC)
     d.line((90, 195, W - 90, 195), fill=(60, 75, 95), width=3)
     if s.get("fig") and Path(s["fig"]).exists():
-        im = fit_image(Image.open(s["fig"]).convert("RGB"), 1620, 660)
-        img.paste(im, ((W - im.width) // 2, 240))
+        im = fit_image(Image.open(s["fig"]).convert("RGB"), 1560, 570)
+        img.paste(im, ((W - im.width) // 2, 225))
     elif s["n"] == 1:
         d.text((W / 2, 420), "人类的生产力足够 UBI 吗？", font=load_font(88, bold=True), fill=FG, anchor="mm")
         d.text((W / 2, 560), "治理技术上有什么阻碍？", font=load_font(88, bold=True), fill=ACC, anchor="mm")
