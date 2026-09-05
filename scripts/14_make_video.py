@@ -205,10 +205,13 @@ def make_frame(s):
         d.text((W / 2, 680), "—— 80 篇文献 · 31,656 条世界银行观测 · 26 国与中国专章 ——",
                font=load_font(34), fill=(150, 165, 185), anchor="mm")
     elif s["n"] == 10:
-        d.text((W / 2, 380), "生产率：一百年前就够用了", font=load_font(80, bold=True), fill=FG, anchor="mm")
-        d.text((W / 2, 530), "拦路的只有两件事：", font=load_font(56), fill=(160, 175, 195), anchor="mm")
-        d.text((W / 2, 630), "钱从谁身上来（政治）", font=load_font(66, bold=True), fill=ACC, anchor="mm")
-        d.text((W / 2, 730), "钱怎么准确、可持续地到人手里（治理）", font=load_font(66, bold=True), fill=ACC, anchor="mm")
+        d.text((W / 2, 300), "生产力：早就够用了", font=load_font(64, bold=True), fill=FG, anchor="mm")
+        d.text((W / 2, 420), "但执行比想象中复杂——", font=load_font(48), fill=(160, 175, 195), anchor="mm")
+        y = 520
+        for line in ["税制要重构", "身份和支付要打通", "养老金在排队", "政治共识要一分一分地攒"]:
+            d.text((W / 2, y), "· " + line, font=load_font(50, bold=True), fill=ACC, anchor="mm")
+            y += 92
+        d.text((W / 2, 1008), "它是一项制度工程，不是一道判断题", font=load_font(38, bold=True), fill=(200, 205, 160), anchor="mm")
     d.text((W - 90, 30), "代码与数据 · github.com/akisame2023/UBI-research",
            font=load_font(24), fill=(110, 128, 150), anchor="rm")
     out = VID / "frames" / f"s{s['n']:02d}.png"

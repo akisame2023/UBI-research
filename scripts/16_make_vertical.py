@@ -68,11 +68,13 @@ def make_vframe(s):
         d.text((W / 2, 1030), "80 篇文献 · 31,656 条世界银行观测", font=load_font(30),
                fill=(150, 165, 185), anchor="mm")
     elif s["n"] == 10:
-        d.text((W / 2, 420), "生产率：", font=load_font(64, bold=True), fill=FG, anchor="mm")
-        d.text((W / 2, 540), "一百年前就够用了", font=load_font(72, bold=True), fill=FG, anchor="mm")
-        d.text((W / 2, 760), "拦路的只有两件事：", font=load_font(46), fill=(160, 175, 195), anchor="mm")
-        d.text((W / 2, 900), "钱从谁身上来（政治）", font=load_font(56, bold=True), fill=ACC, anchor="mm")
-        d.text((W / 2, 1030), "钱怎么准确、可持续地到人手里（治理）", font=load_font(44, bold=True), fill=ACC, anchor="mm")
+        d.text((W / 2, 330), "生产力：早就够用了", font=load_font(62, bold=True), fill=FG, anchor="mm")
+        d.text((W / 2, 460), "但执行比想象中复杂：", font=load_font(42), fill=(160, 175, 195), anchor="mm")
+        y = 590
+        for line in ["税制要重构", "身份和支付要打通", "养老金在排队", "政治共识要攒"]:
+            d.text((W / 2, y), "· " + line, font=load_font(52, bold=True), fill=ACC, anchor="mm")
+            y += 105
+        d.text((W / 2, 1180), "一项制度工程，不是一道判断题", font=load_font(40, bold=True), fill=(200, 205, 160), anchor="mm")
     else:  # 文献/数据列表
         f_h = load_font(36, bold=True)
         f_b = load_font(29)
