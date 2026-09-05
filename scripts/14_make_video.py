@@ -72,7 +72,7 @@ for s_ in SCENES:
 
 # ---------------------------------------------------------------- 文献分页场景 (S11-S15, 全名列出)
 LIT_SLIDES = [
-    (11, "文献与出处 1/4 · 经典理论", "研究一共引用了八十篇文献，全部逐条核验过元数据。第一页是经典理论：从弗里德曼的负所得税，到范·派里斯的真实自由，再到皮凯蒂对财富积累的刻画。", [
+    (12, "文献与出处 1/4 · 经典理论", "研究一共引用了八十篇文献，全部逐条核验过元数据。第一页是经典理论：从弗里德曼的负所得税，到范·派里斯的真实自由，再到皮凯蒂对财富积累的刻画。", [
         "Friedman（1962）《资本主义与自由》· 第 IX 章 负所得税 · U. Chicago Press",
         "Tobin, Pechman & Mieszkowski（1967）《负所得税可行吗？》· Yale Law Journal",
         "Van Parijs（1995）《给所有人以真实自由》· Oxford University Press",
@@ -80,7 +80,7 @@ LIT_SLIDES = [
         "Atkinson（1996）《参与收入的理由》· Political Quarterly；Atkinson（2015）《不平等：我们能做什么》",
         "Piketty（2014）《21 世纪资本论》· Harvard University Press；Korpi & Palme（1998）《再分配悖论》· ASR",
     ]),
-    (12, "文献与出处 2/4 · 实验与实证", "第二页是实验与实证：加拿大 Mincome、阿拉斯加永久基金分红、芬兰 Kela 实验、肯尼亚 GiveDirectly 的一般均衡研究、伊朗的全国现金转移，以及美国最新的三年无条件现金实验。", [
+    (13, "文献与出处 2/4 · 实验与实证", "第二页是实验与实证：加拿大 Mincome、阿拉斯加永久基金分红、芬兰 Kela 实验、肯尼亚 GiveDirectly 的一般均衡研究、伊朗的全国现金转移，以及美国最新的三年无条件现金实验。", [
         "Forget（2011）《没有贫困的城镇》· Canadian Public Policy —— 加拿大 Mincome",
         "Jones & Marinescu（2018/2022）阿拉斯加永久基金分红的劳动市场影响 · NBER 24312 / AEJ: Policy",
         "Kela（2020）芬兰基本收入实验 2017-2018 最终报告 · 芬兰社会保障研究所",
@@ -88,7 +88,7 @@ LIT_SLIDES = [
         "Banerjee, Hanna & Kreindler（2017）《为\"懒穷人\"正名》· WBRO；Salehi-Isfahani（2018）伊朗现金转移 · JDE",
         "OpenResearch（2024）美国三年无条件现金转移研究 · NBER w32784",
     ]),
-    (13, "文献与出处 3/4 · 成本与人工智能", "第三页是成本核算与人工智能：从 Hoynes 和 Rothstein 的成本综述、Hanna 和 Olken 的普惠与定向之辩，到 Frey-Osborne 的就业未来、Acemoglu 的 AI 宏观经济学，还有发表在 Science 上的生成式 AI 生产率实验。", [
+    (14, "文献与出处 3/4 · 成本与人工智能", "第三页是成本核算与人工智能：从 Hoynes 和 Rothstein 的成本综述、Hanna 和 Olken 的普惠与定向之辩，到 Frey-Osborne 的就业未来、Acemoglu 的 AI 宏观经济学，还有发表在 Science 上的生成式 AI 生产率实验。", [
         "Hoynes & Rothstein（2019）《美国与发达国家的 UBI》· Annual Review of Economics",
         "Hanna & Olken（2018）《普惠还是定向》· JEP；Widerquist（2017）《基本收入的成本》· Basic Income Studies",
         "Frey & Osborne（2017）《就业的未来》· TFSC；Arntz, Gregory & Zierahn（2016）OECD 任务法修正",
@@ -96,7 +96,7 @@ LIT_SLIDES = [
         "Noy & Zhang（2023）生成式 AI 生产率实验 · Science；Brynjolfsson, Li & Raymond（2025）· QJE",
         "Eloundou 等（2024）《GPTs are GPTs》· Science；Briggs & Kodnani（2023）高盛 AI 增长报告",
     ]),
-    (14, "文献与出处 4/4 · 治理与数据", "第四页是治理与数据：Hanna 和 Olken 的定向之比较、印度的生物识别智能卡、M-Pesa 的十年研究、Aadhaar 的排斥案例、美国审计署的欺诈报告，以及 ID4D、Findex、ILO 三大数据体系。", [
+    (15, "文献与出处 4/4 · 治理与数据", "第四页是治理与数据：Hanna 和 Olken 的定向之比较、印度的生物识别智能卡、M-Pesa 的十年研究、Aadhaar 的排斥案例、美国审计署的欺诈报告，以及 ID4D、Findex、ILO 三大数据体系。", [
         "Hanna & Olken（2018）《UBI 与定向转移》· JEP；Muralidharan 等（2016）生物识别智能卡 · AER",
         "Suri & Jack（2016）M-Pesa 十年影响 · Science；Jean 等（2016）卫星+机器学习预测贫困 · Science",
         "Aiken 等（2022）手机数据定向人道主义援助 · Nature；Drèze, Khera & Somanchi（2019）Aadhaar 排斥研究",
@@ -109,8 +109,8 @@ SCENES.append({"n": 11, "title": "谁最可能先发", "fig": FIG / "fig11_score
                "text": "那哪些国家最可能先动？北欧和爱沙尼亚：数字身份覆盖率百分之九十五以上，净成本只占GDP的百分之四到六，技术上明天就能上线。真正的拦路虎是政治。瑞士公投，七成七反对；排在发钱前面的，还有躲不掉的养老金。"})
 for n, title, text, _ in LIT_SLIDES:
     SCENES.append({"n": n, "title": title, "fig": None, "text": text, "lit": LIT_SLIDES[[x[0] for x in LIT_SLIDES].index(n)][3]})
-SCENES.append({"n": 15, "title": "数据与代码", "fig": None, "text":
-    "最后是数据与代码。三份完整报告、全部源码、十二张图表和八十篇文献清单，都在 GitHub 仓库，网址就在屏幕右上角，链接也放在视频简介里，欢迎复算。",
+SCENES.append({"n": 16, "title": "研究出处 · 数据与代码", "fig": None, "text":
+    "最后交代研究出处。本视频的每一句话，都有依据摆在网络上。数据用的是世界银行公开数据、Maddison 两千年经济史，以及公开数据平台。文献方面，弗里德曼、阿西莫格鲁、班纳吉、Hanna 和 Olken 等八十篇论文，逐条核验清单也在仓库里。三份完整报告、全部源码、数据表格和图表，都在 GitHub 仓库，网址就在屏幕右上角，链接也放在视频简介里。欢迎复算。",
     "lit": [
         "报告：主报告 · 26 国高信息化子研究 · 中国专章 · 真实性校验报告",
         "数据：世界银行 WDI 31,656 行 · Maddison 1820-2022 · OWID 劳动份额与碳排放",
