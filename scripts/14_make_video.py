@@ -47,6 +47,29 @@ for b in re.split(r"\n\n(?=S\d+ \|)", narr.strip()):
                    "text": "".join(lines[1:]).strip()})
 print(f"解析到 {len(SCENES)} 个场景")
 
+# 案例卡 (S8 荷兰 / S9 澳大利亚): 细节在画面上, 解说保持短句
+CASES = {
+    8: ("案例 · 荷兰育儿补贴丑闻（2005-2019）", [
+        "税务署用自学习算法给申请人打「欺诈风险分」",
+        "双重国籍 / 外国姓名 = 高风险信号 → 系统性歧视",
+        "约 2.6 万家庭被错误追债（高估计至 3.5 万）",
+        "上千名儿童进入寄养家庭，大量家庭负债破产",
+        "2021 年 1 月 吕特内阁集体总辞",
+        "信源：议会调查报告 · Amnesty《Xenophobic Machines》",
+    ]),
+    9: ("案例 · 澳大利亚 Robodebt（2016-2019）", [
+        "以「收入平均化」自动计算福利债务并追缴",
+        "联邦法院判定：做法违法",
+        "集体诉讼和解 18 亿澳元（2020-21）",
+        "皇家委员会结论（2023）：一场「可耻的失败」",
+        "2025 年追加 4.75 亿澳元和解",
+        "信源：Royal Commission · Services Australia",
+    ]),
+}
+for s_ in SCENES:
+    if s_["n"] in CASES:
+        s_["case"] = CASES[s_["n"]]
+
 # ---------------------------------------------------------------- 文献分页场景 (S11-S15, 全名列出)
 LIT_SLIDES = [
     (11, "文献与出处 1/4 · 经典理论", "研究一共引用了八十篇文献，全部逐条核验过元数据。第一页是经典理论：从弗里德曼的负所得税，到范·派里斯的真实自由，再到皮凯蒂对财富积累的刻画。", [
@@ -82,6 +105,8 @@ LIT_SLIDES = [
         "中国：人社部统计公报 · 社科院《养老金精算报告》· 生态环境部碳市场数据",
     ]),
 ]
+SCENES.append({"n": 11, "title": "谁最可能先发", "fig": FIG / "fig11_scorecard.png",
+               "text": "那哪些国家最可能先动？北欧和爱沙尼亚：数字身份覆盖率百分之九十五以上，净成本只占GDP的百分之四到六，技术上明天就能上线。真正的拦路虎是政治。瑞士公投，七成七反对；排在发钱前面的，还有躲不掉的养老金。"})
 for n, title, text, _ in LIT_SLIDES:
     SCENES.append({"n": n, "title": title, "fig": None, "text": text, "lit": LIT_SLIDES[[x[0] for x in LIT_SLIDES].index(n)][3]})
 SCENES.append({"n": 15, "title": "数据与代码", "fig": None, "text":
@@ -188,6 +213,16 @@ def make_frame(s):
         d.text((W / 2, 560), "治理技术上有什么阻碍？", font=load_font(88, bold=True), fill=ACC, anchor="mm")
         d.text((W / 2, 680), "—— 80 篇文献 · 31,656 条世界银行观测 · 26 国与中国专章 ——",
                font=load_font(34), fill=(150, 165, 185), anchor="mm")
+    elif s.get("case"):
+        title, lines = s["case"]
+        d.text((W / 2 - 830, 250), title, font=load_font(44, bold=True), fill=(220, 170, 110))
+        y = 370
+        for line in lines:
+            fb = load_font(33)
+            while d.textlength("· " + line, font=fb) > 1680 and fb.size > 24:
+                fb = load_font(fb.size - 2)
+            d.text((W / 2 - 830, y), "· " + line, font=fb, fill=FG)
+            y += 58
     elif s.get("lit"):
         f_h = load_font(40, bold=True)
         y = 250

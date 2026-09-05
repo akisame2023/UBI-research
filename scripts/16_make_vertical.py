@@ -79,6 +79,16 @@ def make_vframe(s):
         d.text((54, 830), "权衡判断：效益、成本、机会成本", font=load_font(38, bold=True), fill=(200, 205, 160))
         d.text((54, 890), "放在一起称，因国、因价值观而异；", font=load_font(30), fill=FG)
         d.text((54, 944), "研究负责把天平两边的量级算清楚。", font=load_font(30), fill=FG)
+    elif s.get("case"):
+        title, lines = s["case"]
+        d.text((54, 220), title, font=load_font(36, bold=True), fill=(220, 170, 110))
+        y = 330
+        for line in lines:
+            fb = load_font(28)
+            for ln in wrap_by_width(d, chr(183) + " " + line, fb, W - 108):
+                d.text((54, y), ln, font=fb, fill=FG)
+                y += 42
+            y += 16
     else:  # 文献/数据列表
         f_h = load_font(36, bold=True)
         f_b = load_font(29)
