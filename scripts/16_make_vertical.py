@@ -68,13 +68,17 @@ def make_vframe(s):
         d.text((W / 2, 1030), "80 篇文献 · 31,656 条世界银行观测", font=load_font(30),
                fill=(150, 165, 185), anchor="mm")
     elif s["n"] == 10:
-        d.text((W / 2, 330), "生产力：早就够用了", font=load_font(62, bold=True), fill=FG, anchor="mm")
-        d.text((W / 2, 460), "但执行比想象中复杂：", font=load_font(42), fill=(160, 175, 195), anchor="mm")
-        y = 590
-        for line in ["税制要重构", "身份和支付要打通", "养老金在排队", "政治共识要攒"]:
-            d.text((W / 2, y), "· " + line, font=load_font(52, bold=True), fill=ACC, anchor="mm")
-            y += 105
-        d.text((W / 2, 1180), "一项制度工程，不是一道判断题", font=load_font(40, bold=True), fill=(200, 205, 160), anchor="mm")
+        d.text((W / 2, 240), "总结：UBI 是一道权衡题", font=load_font(50, bold=True), fill=FG, anchor="mm")
+        f_h, f_b = load_font(34, bold=True), load_font(29)
+        d.text((54, 340), "社会效益（实证支持）", font=f_h, fill=(110, 190, 130))
+        for i, line in enumerate(["贫困与健康改善 · 议价能力更强", "福利行政简化，无算法排斥"]):
+            d.text((54, 402 + i * 46), "＋ " + line, font=f_b, fill=FG)
+        d.text((54, 530), "代价与风险（同样真实）", font=f_h, fill=(220, 120, 110))
+        for i, line in enumerate(["财政负担与税收扭曲", "少数人工时下降", "替换定向体系或伤及最困难者", "通胀/租金与机会成本未定"]):
+            d.text((54, 592 + i * 46), "− " + line, font=f_b, fill=FG)
+        d.text((54, 830), "权衡判断：效益、成本、机会成本", font=load_font(38, bold=True), fill=(200, 205, 160))
+        d.text((54, 890), "放在一起称，因国、因价值观而异；", font=load_font(30), fill=FG)
+        d.text((54, 944), "研究负责把天平两边的量级算清楚。", font=load_font(30), fill=FG)
     else:  # 文献/数据列表
         f_h = load_font(36, bold=True)
         f_b = load_font(29)

@@ -205,13 +205,24 @@ def make_frame(s):
         d.text((W / 2, 680), "—— 80 篇文献 · 31,656 条世界银行观测 · 26 国与中国专章 ——",
                font=load_font(34), fill=(150, 165, 185), anchor="mm")
     elif s["n"] == 10:
-        d.text((W / 2, 300), "生产力：早就够用了", font=load_font(64, bold=True), fill=FG, anchor="mm")
-        d.text((W / 2, 420), "但执行比想象中复杂——", font=load_font(48), fill=(160, 175, 195), anchor="mm")
-        y = 520
-        for line in ["税制要重构", "身份和支付要打通", "养老金在排队", "政治共识要一分一分地攒"]:
-            d.text((W / 2, y), "· " + line, font=load_font(50, bold=True), fill=ACC, anchor="mm")
-            y += 92
-        d.text((W / 2, 1008), "它是一项制度工程，不是一道判断题", font=load_font(38, bold=True), fill=(200, 205, 160), anchor="mm")
+        d.text((W / 2, 260), "总结：UBI 是一道权衡题", font=load_font(56, bold=True), fill=FG, anchor="mm")
+        d.text((W / 2, 340), "不是送分题，也不是一票否决题", font=load_font(38), fill=(160, 175, 195), anchor="mm")
+        f_h, f_b = load_font(38, bold=True), load_font(31)
+        d.text((W / 2 - 720, 420), "社会效益（实证支持）", font=f_h, fill=(110, 190, 130))
+        for i, line in enumerate(["贫困与健康显著改善（Mincome/Kela）",
+                                   "穷人议价能力更强，可拒绝恶性雇佣",
+                                   "福利行政简化，无算法排斥",
+                                   "危机时期的自动稳定器"]):
+            d.text((W / 2 - 720, 486 + i * 52), "＋ " + line, font=f_b, fill=FG)
+        d.text((W / 2 + 60, 420), "代价与风险（同样真实）", font=f_h, fill=(220, 120, 110))
+        for i, line in enumerate(["财政负担与税收扭曲",
+                                   "少数人工时下降（OpenResearch -5%）",
+                                   "替换定向体系可能伤及最困难者",
+                                   "通胀/租金效应与机会成本未定"]):
+            d.text((W / 2 + 60, 486 + i * 52), "− " + line, font=f_b, fill=FG)
+        d.text((W / 2, 760), "效益、成本、机会成本放在一起称 ——", font=load_font(38), fill=FG, anchor="mm")
+        d.text((W / 2, 830), "每个社会根据自己的财政空间和价值观做判断；研究负责把两边的量级算清楚",
+               font=load_font(33), fill=(200, 205, 160), anchor="mm")
     d.text((W - 90, 30), "代码与数据 · github.com/akisame2023/UBI-research",
            font=load_font(24), fill=(110, 128, 150), anchor="rm")
     out = VID / "frames" / f"s{s['n']:02d}.png"
